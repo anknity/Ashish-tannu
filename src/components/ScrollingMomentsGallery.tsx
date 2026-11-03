@@ -91,17 +91,27 @@ export const ScrollingMomentsGallery: React.FC<ScrollingMomentsGalleryProps> = (
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
   const [isPaused, setIsPaused] = useState(false);
 
-  // Smooth continuous auto-scroll effect when not hovered/paused
+  // Ultra-smooth sub-pixel accumulated continuous auto-scroll effect
   useEffect(() => {
     const container = scrollContainerRef.current;
     if (!container || isPaused) return;
 
     let animationFrameId: number;
-    const speed = 0.65;
+    let lastTime = performance.now();
+    let subPixelCarry = 0;
+    const pixelsPerSecond = 44;
 
-    const step = () => {
+    const step = (now: number) => {
+      const dt = Math.min((now - lastTime) / 1000, 0.05);
+      lastTime = now;
+
       if (container) {
-        container.scrollLeft += speed;
+        subPixelCarry += pixelsPerSecond * dt;
+        const intStep = Math.trunc(subPixelCarry);
+        if (intStep >= 1) {
+          container.scrollLeft += intStep;
+          subPixelCarry -= intStep;
+        }
         // Seamless loop reset when reaching halfway through the duplicated track
         if (container.scrollLeft >= container.scrollWidth / 2) {
           container.scrollLeft = 0;
@@ -132,10 +142,10 @@ export const ScrollingMomentsGallery: React.FC<ScrollingMomentsGalleryProps> = (
       {/* Header & Scroll Controls */}
       <div className="max-w-6xl mx-auto px-4 sm:px-8 mb-12 flex flex-col sm:flex-row sm:items-end justify-between gap-6">
         <motion.div
-          initial={{ opacity: 0, y: 28 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.35 }}
-          transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
           className="text-center sm:text-left"
         >
           <p className="font-pinyon text-4xl sm:text-5xl text-[#1E3148] -mb-1">Moments</p>
@@ -145,17 +155,14 @@ export const ScrollingMomentsGallery: React.FC<ScrollingMomentsGalleryProps> = (
           >
             आशीष &amp; तन्नू — यादगार झलकियाँ
           </h2>
-          <p className="font-serif italic text-base text-[#4A5868] mt-1">
-            A curated scrolling gallery of bespoke portrait frames &bull; Click any frame to enlarge
-          </p>
         </motion.div>
 
         {/* Interactive Gallery Controls */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.35 }}
-          transition={{ duration: 0.8, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.7, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
           className="flex items-center justify-center gap-2.5 shrink-0"
         >
           <motion.button
@@ -222,19 +229,18 @@ export const ScrollingMomentsGallery: React.FC<ScrollingMomentsGalleryProps> = (
                   onSelectMemory(resolvedMemory);
                 }
               }}
-              initial={{ opacity: 0, y: 36, scale: 0.94 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              viewport={{ once: true, amount: 0.15 }}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.1 }}
               transition={{
-                type: 'spring',
-                stiffness: 110,
-                damping: 18,
-                delay: (idx % 6) * 0.08,
+                duration: 0.65,
+                delay: (idx % 6) * 0.05,
+                ease: [0.16, 1, 0.3, 1],
               }}
               whileHover={{
-                y: -12,
-                scale: 1.03,
-                transition: { type: 'spring', stiffness: 260, damping: 20 },
+                y: -10,
+                scale: 1.025,
+                transition: { type: 'spring', stiffness: 280, damping: 22 },
               }}
               whileTap={{ scale: 0.98 }}
               className="group relative shrink-0 cursor-pointer will-change-transform"
@@ -247,6 +253,7 @@ export const ScrollingMomentsGallery: React.FC<ScrollingMomentsGalleryProps> = (
                     <img
                       src={itemImageSrc}
                       alt={item.title}
+                      decoding="async"
                       className={`w-full h-full object-cover ${item.objectPosition} transition-transform duration-700 group-hover:scale-105`}
                     />
                   </div>
@@ -275,6 +282,7 @@ export const ScrollingMomentsGallery: React.FC<ScrollingMomentsGalleryProps> = (
                     <img
                       src={itemImageSrc}
                       alt={item.title}
+                      decoding="async"
                       className={`w-full h-full object-cover ${item.objectPosition} transition-transform duration-700 group-hover:scale-105`}
                     />
                   </div>
@@ -303,6 +311,7 @@ export const ScrollingMomentsGallery: React.FC<ScrollingMomentsGalleryProps> = (
                     <img
                       src={itemImageSrc}
                       alt={item.title}
+                      decoding="async"
                       className="w-full h-full rounded-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
                     />
                   </div>
@@ -323,7 +332,7 @@ export const ScrollingMomentsGallery: React.FC<ScrollingMomentsGalleryProps> = (
                 </div>
               )}
 
-              {/* 4. WIDE MUSEUM PASSEPARTOUT DOUBLE-MAT FRAME */}
+              {/* 4. WIDE MUSEUM PASSEPARTOUT DOUBLE-MAT FRAME (Caption Removed) */}
               {item.frameStyle === 'museum' && (
                 <div className="w-[340px] sm:w-[390px] bg-[#FAF8F5] p-6 sm:p-7 shadow-[0_18px_42px_rgba(20,32,48,0.15)] border-2 border-[#B8B0A4] relative">
                   <div className="absolute inset-3 border border-[#D4CBBF] pointer-events-none" />
@@ -331,27 +340,23 @@ export const ScrollingMomentsGallery: React.FC<ScrollingMomentsGalleryProps> = (
                     <img
                       src={itemImageSrc}
                       alt={item.title}
+                      decoding="async"
                       className={`w-full h-full object-cover ${item.objectPosition} transition-transform duration-700 group-hover:scale-105`}
                     />
                   </div>
-                  <div className="pt-4 flex items-center justify-between text-left">
-                    <div>
-                      <h3
-                        className="text-base sm:text-lg font-semibold text-[#1B2C40]"
-                        style={{ fontFamily: 'var(--font-hindi)' }}
-                      >
-                        {item.title}
-                      </h3>
-                      <p
-                        className="text-xs text-[#6E5D46]"
-                        style={{ fontFamily: 'var(--font-hindi)' }}
-                      >
-                        {item.hindiTag}
-                      </p>
-                    </div>
-                    <span className="font-sans text-[9px] tracking-[0.2em] uppercase text-[#7E8C9A]">
-                      {item.caption}
-                    </span>
+                  <div className="pt-4 text-center">
+                    <h3
+                      className="text-base sm:text-lg font-semibold text-[#1B2C40]"
+                      style={{ fontFamily: 'var(--font-hindi)' }}
+                    >
+                      {item.title}
+                    </h3>
+                    <p
+                      className="text-xs text-[#6E5D46] mt-0.5"
+                      style={{ fontFamily: 'var(--font-hindi)' }}
+                    >
+                      {item.hindiTag}
+                    </p>
                   </div>
                 </div>
               )}
@@ -363,6 +368,7 @@ export const ScrollingMomentsGallery: React.FC<ScrollingMomentsGalleryProps> = (
                     <img
                       src={itemImageSrc}
                       alt={item.title}
+                      decoding="async"
                       className={`w-full h-full object-cover ${item.objectPosition} transition-transform duration-700 group-hover:scale-105`}
                     />
                     <div className="absolute inset-2.5 rounded-[132px] border border-white/80 pointer-events-none" />
@@ -377,6 +383,7 @@ export const ScrollingMomentsGallery: React.FC<ScrollingMomentsGalleryProps> = (
                     <img
                       src={itemImageSrc}
                       alt={item.title}
+                      decoding="async"
                       className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
                     />
                   </div>

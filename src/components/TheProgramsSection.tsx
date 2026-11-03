@@ -446,6 +446,7 @@ export const TheProgramsSection: React.FC<TheProgramsSectionProps> = ({
                   <img
                     src={portraits[block.portraitKey]}
                     alt={block.englishTitle}
+                    decoding="async"
                     className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-110"
                   />
                   {/* Thin White Inset Square Frame */}
@@ -536,11 +537,11 @@ export const TheProgramsSection: React.FC<TheProgramsSectionProps> = ({
 
         {/* DESKTOP CENTER-STRADDLING STYLED HEADING: "The Programs" */}
         <motion.div
-          initial={{ opacity: 0, y: -22, filter: 'blur(4px)' }}
-          whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+          initial={{ opacity: 0, y: -18 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.95, ease: [0.16, 1, 0.3, 1] }}
-          className="hidden lg:flex flex-col items-center absolute top-7 left-1/2 -translate-x-1/2 z-30 pointer-events-none select-none text-center"
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="hidden lg:flex flex-col items-center absolute top-7 left-1/2 -translate-x-1/2 z-30 pointer-events-none select-none text-center will-change-transform"
         >
           <span className="font-sans text-[10px] tracking-[0.32em] uppercase text-[#5C6B7A] mb-0.5">
             SHUBH VIVAH UTSAV

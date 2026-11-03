@@ -28,10 +28,10 @@ export default function App() {
   // Generated wedding portraits featuring the exact Groom & Bride
   const portraits = useGeneratedCouplePortraits();
 
-  // Real MP3 Audio player state
+  // Real MP3 Audio player state — defaults to active until the user explicitly mutes
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const userManuallyPausedRef = useRef(false);
-  const [isPlayingSong, setIsPlayingSong] = useState(false);
+  const [isPlayingSong, setIsPlayingSong] = useState(true);
 
   // Refs for GSAP ScrollTrigger ribbon & collage animations
   const collageSectionRef = useRef<HTMLElement | null>(null);
@@ -49,38 +49,61 @@ export default function App() {
   const [isStoryOpen, setIsStoryOpen] = useState(false);
   const [lightboxMemory, setLightboxMemory] = useState<PolaroidMemory | null>(null);
 
-  // Smooth Auto-play of the attached wedding song as soon as the user opens the site
+  // Persistent Auto-play on every page load / reload until the user clicks Mute
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
+    audio.muted = false;
     audio.volume = 0.85;
+
+    // Optional Web Audio Context unlock helper for mobile & desktop browsers
+    const AudioCtx =
+      window.AudioContext ||
+      (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+    const audioCtx = AudioCtx ? new AudioCtx() : null;
 
     const unlockEvents = [
       'pointerdown',
+      'pointerup',
       'pointermove',
       'mousemove',
+      'mouseenter',
+      'mouseover',
+      'mousedown',
+      'mouseup',
       'touchstart',
       'touchmove',
       'touchend',
       'wheel',
       'scroll',
       'keydown',
+      'keyup',
       'click',
     ];
 
     const removeUnlockListeners = () => {
       unlockEvents.forEach((evt) => {
-        window.removeEventListener(evt, unlockAndPlay, true);
-        document.removeEventListener(evt, unlockAndPlay, true);
+        window.removeEventListener(evt, tryPlayMusic, true);
+        document.removeEventListener(evt, tryPlayMusic, true);
       });
-      document.removeEventListener('visibilitychange', unlockAndPlay);
-      window.removeEventListener('focus', unlockAndPlay);
+      document.removeEventListener('visibilitychange', tryPlayMusic);
+      window.removeEventListener('focus', tryPlayMusic);
+      window.removeEventListener('pageshow', tryPlayMusic);
     };
 
-    const unlockAndPlay = () => {
+    const tryPlayMusic = () => {
       const el = audioRef.current;
       if (!el || userManuallyPausedRef.current) return;
+
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume().catch(() => {});
+      }
+
+      if (!el.paused && !el.muted) {
+        setIsPlayingSong(true);
+        return;
+      }
 
       el.muted = false;
       el.volume = 0.85;
@@ -89,66 +112,57 @@ export default function App() {
       if (playPromise !== undefined) {
         playPromise
           .then(() => {
-            if (!el.paused && !el.muted) {
+            if (!userManuallyPausedRef.current) {
               setIsPlayingSong(true);
               removeUnlockListeners();
             }
           })
           .catch(() => {
-            // Keep listeners active until browser grants unmuted audio playback
+            // Keep listeners & retry interval active until browser permits playback
           });
       }
     };
 
-    const attemptInitialAutoplay = () => {
-      if (userManuallyPausedRef.current) return;
-      audio.muted = false;
-      audio.volume = 0.85;
-
-      audio
-        .play()
-        .then(() => {
-          setIsPlayingSong(true);
-          removeUnlockListeners();
-        })
-        .catch(() => {
-          // Fallback: Start muted playback immediately so the audio stream is already running,
-          // then unmute seamlessly on the very first micro-interaction (mouse move, touch, scroll, tap)
-          audio.muted = true;
-          audio
-            .play()
-            .then(() => {
-              // Attempt immediate programmatic unmute
-              setTimeout(() => {
-                if (!userManuallyPausedRef.current && audioRef.current) {
-                  audioRef.current.muted = false;
-                  audioRef.current.volume = 0.85;
-                  if (!audioRef.current.paused) {
-                    setIsPlayingSong(true);
-                  }
-                }
-              }, 120);
-            })
-            .catch(() => {});
-        });
-    };
-
-    // Attach capture-phase listeners immediately so any gesture unlocks unmuted audio
+    // Attach capture-phase listeners immediately so any cursor movement, scroll, or tap starts music
     unlockEvents.forEach((evt) => {
-      window.addEventListener(evt, unlockAndPlay, { capture: true, passive: true });
-      document.addEventListener(evt, unlockAndPlay, { capture: true, passive: true });
+      window.addEventListener(evt, tryPlayMusic, { capture: true, passive: true });
+      document.addEventListener(evt, tryPlayMusic, { capture: true, passive: true });
     });
-    document.addEventListener('visibilitychange', unlockAndPlay);
-    window.addEventListener('focus', unlockAndPlay);
+    document.addEventListener('visibilitychange', tryPlayMusic);
+    window.addEventListener('focus', tryPlayMusic);
+    window.addEventListener('pageshow', tryPlayMusic);
 
-    attemptInitialAutoplay();
-    audio.addEventListener('loadeddata', attemptInitialAutoplay);
-    audio.addEventListener('canplaythrough', attemptInitialAutoplay);
+    // Try immediately and on all media readiness events
+    tryPlayMusic();
+    audio.addEventListener('loadedmetadata', tryPlayMusic);
+    audio.addEventListener('loadeddata', tryPlayMusic);
+    audio.addEventListener('canplay', tryPlayMusic);
+    audio.addEventListener('canplaythrough', tryPlayMusic);
+
+    // Continuous retry interval every 400ms until playing or until user manually mutes
+    const retryInterval = window.setInterval(() => {
+      if (userManuallyPausedRef.current) {
+        window.clearInterval(retryInterval);
+        return;
+      }
+      if (audioRef.current && !audioRef.current.paused && !audioRef.current.muted) {
+        setIsPlayingSong(true);
+        window.clearInterval(retryInterval);
+        return;
+      }
+      tryPlayMusic();
+    }, 400);
 
     return () => {
+      window.clearInterval(retryInterval);
       removeUnlockListeners();
-      audio.removeEventListener('loadeddata', attemptInitialAutoplay);
-      audio.removeEventListener('canplaythrough', attemptInitialAutoplay);
+      audio.removeEventListener('loadedmetadata', tryPlayMusic);
+      audio.removeEventListener('loadeddata', tryPlayMusic);
+      audio.removeEventListener('canplay', tryPlayMusic);
+      audio.removeEventListener('canplaythrough', tryPlayMusic);
+      if (audioCtx && audioCtx.state !== 'closed') {
+        audioCtx.close().catch(() => {});
+      }
     };
   }, []);
 
@@ -156,7 +170,7 @@ export default function App() {
     const audio = audioRef.current;
     if (!audio) return;
 
-    if (audio.paused || audio.muted) {
+    if (userManuallyPausedRef.current || audio.paused) {
       userManuallyPausedRef.current = false;
       audio.muted = false;
       audio.volume = 0.85;
@@ -238,11 +252,17 @@ export default function App() {
         playsInline
         preload="auto"
         onPlay={() => {
-          if (audioRef.current && !audioRef.current.muted) {
+          if (!userManuallyPausedRef.current) {
             setIsPlayingSong(true);
           }
         }}
-        onPause={() => setIsPlayingSong(false)}
+        onPause={() => {
+          if (userManuallyPausedRef.current) {
+            setIsPlayingSong(false);
+          } else {
+            audioRef.current?.play().catch(() => {});
+          }
+        }}
       />
 
       {/* ===================================================================== */}
@@ -1078,15 +1098,23 @@ export default function App() {
                 className="text-xs sm:text-sm text-[#DCE5EE] mt-1"
                 style={{ fontFamily: 'var(--font-hindi)' }}
               >
-                09 दिसंबर 2026 &bull; दरियापुर बाज़ार
+                09 दिसंबर 2026
               </p>
             </div>
           </div>
 
-          {/* Single Bottom Line: Powered By Alomonox Technology PVT LTD */}
+          {/* Single Bottom Line: Developed by Alomonx Technology Pvt. Ltd. */}
           <div className="w-full mt-9 pt-5 border-t border-white/15">
             <p className="font-sans text-[10px] sm:text-xs tracking-[0.2em] sm:tracking-[0.22em] uppercase text-powder-200/90">
-              Powered By Alomonox Technology PVT LTD
+              Developed by{' '}
+              <a
+                href="https://alomonx.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white hover:text-powder-200 underline underline-offset-4 decoration-powder-300/60 hover:decoration-white transition-colors font-semibold"
+              >
+                Alomonx Technology Pvt. Ltd.
+              </a>
             </p>
           </div>
         </motion.div>

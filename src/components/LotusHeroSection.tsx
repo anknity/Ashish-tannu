@@ -43,6 +43,7 @@ export const LotusHeroSection: React.FC = () => {
           src={ORIGINAL_MEHNDI_SRC}
           alt=""
           aria-hidden="true"
+          decoding="async"
           className="absolute inset-0 w-full h-full object-cover object-center blur-xl scale-110 opacity-85"
         />
 
@@ -50,6 +51,8 @@ export const LotusHeroSection: React.FC = () => {
         <img
           src={ORIGINAL_MEHNDI_SRC}
           alt="Ashish and Tannu Festive Mehndi & Wedding Portrait"
+          fetchPriority="high"
+          decoding="async"
           className="relative w-full h-full object-cover object-[50%_18%]"
         />
 
@@ -68,14 +71,16 @@ export const LotusHeroSection: React.FC = () => {
       >
         {/* Left Photo Panel: User's Original Joyful Haldi Ceremony Portrait */}
         <motion.div
-          initial={{ opacity: 0, scale: 1.08, x: -18 }}
-          animate={{ opacity: 1, scale: 1.01, x: 0 }}
-          transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-          className="relative w-full h-full overflow-hidden border-r border-white/75"
+          initial={{ opacity: 0, scale: 1.05 }}
+          animate={{ opacity: 1, scale: 1.01 }}
+          transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
+          className="relative w-full h-full overflow-hidden border-r border-white/75 will-change-transform"
         >
           <img
             src={ORIGINAL_HALDI_SRC}
             alt="Ashish and Tannu Original Haldi Ceremony Portrait"
+            fetchPriority="high"
+            decoding="async"
             className="w-full h-full object-cover object-[50%_20%] transition-transform duration-1000 hover:scale-105"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-black/10 via-transparent to-black/15 pointer-events-none" />
@@ -83,14 +88,16 @@ export const LotusHeroSection: React.FC = () => {
 
         {/* Right Photo Panel: User's Original Festive Mehndi Ceremony Portrait */}
         <motion.div
-          initial={{ opacity: 0, scale: 1.08, x: 18 }}
-          animate={{ opacity: 1, scale: 1.01, x: 0 }}
-          transition={{ duration: 1.5, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          className="relative w-full h-full overflow-hidden"
+          initial={{ opacity: 0, scale: 1.05 }}
+          animate={{ opacity: 1, scale: 1.01 }}
+          transition={{ duration: 1.1, delay: 0.06, ease: [0.16, 1, 0.3, 1] }}
+          className="relative w-full h-full overflow-hidden will-change-transform"
         >
           <img
             src={ORIGINAL_MEHNDI_SRC}
             alt="Ashish and Tannu Original Mehndi Ceremony Portrait"
+            fetchPriority="high"
+            decoding="async"
             className="w-full h-full object-cover object-[50%_20%] transition-transform duration-1000 hover:scale-105"
           />
           <div className="absolute inset-0 bg-gradient-to-l from-black/10 via-transparent to-black/15 pointer-events-none" />
@@ -107,9 +114,9 @@ export const LotusHeroSection: React.FC = () => {
       {/* =================================================================== */}
       <motion.div
         style={{ y: archY }}
-        initial={{ opacity: 0, y: 36, scale: 0.92 }}
+        initial={{ opacity: 0, y: 24, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 1.2, delay: 0.18, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.9, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
         className="relative z-20 mt-48 xs:mt-52 sm:mt-44 md:mt-0 px-3 flex flex-col items-center justify-center will-change-transform"
       >
         <motion.div
@@ -125,7 +132,7 @@ export const LotusHeroSection: React.FC = () => {
           {/* TOP-LEFT HYPER-REALISTIC BLOOMING PINK LOTUS & VEINED PADS      */}
           {/* =============================================================== */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.55, rotate: -14 }}
+            initial={{ opacity: 0, scale: 0.75, rotate: -10 }}
             animate={{
               opacity: 1,
               scale: 1,
@@ -133,12 +140,12 @@ export const LotusHeroSection: React.FC = () => {
               y: [0, -5, 0],
             }}
             transition={{
-              opacity: { duration: 1, delay: 0.38 },
-              scale: { duration: 1.1, delay: 0.38, ease: [0.16, 1, 0.3, 1] },
+              opacity: { duration: 0.8, delay: 0.25 },
+              scale: { duration: 0.9, delay: 0.25, ease: [0.16, 1, 0.3, 1] },
               rotate: { duration: 6.5, repeat: Infinity, ease: 'easeInOut' },
               y: { duration: 5.2, repeat: Infinity, ease: 'easeInOut' },
             }}
-            className="absolute -top-6 -left-5 sm:-top-10 sm:-left-9 w-28 xs:w-32 sm:w-52 md:w-56 h-28 xs:h-32 sm:h-52 md:h-56 pointer-events-none z-30"
+            className="absolute -top-6 -left-5 sm:-top-10 sm:-left-9 w-28 xs:w-32 sm:w-52 md:w-56 h-28 xs:h-32 sm:h-52 md:h-56 pointer-events-none z-30 will-change-transform"
           >
             <RealisticLotusClusterSVG className="w-full h-full drop-shadow-[0_10px_18px_rgba(45,15,24,0.26)]" />
           </motion.div>
@@ -147,7 +154,7 @@ export const LotusHeroSection: React.FC = () => {
           {/* BOTTOM-RIGHT HYPER-REALISTIC PINK ALSTROEMERIA / LILY CLUSTER   */}
           {/* =============================================================== */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.55, rotate: 14 }}
+            initial={{ opacity: 0, scale: 0.75, rotate: 10 }}
             animate={{
               opacity: 1,
               scale: 1,
@@ -155,12 +162,12 @@ export const LotusHeroSection: React.FC = () => {
               y: [0, 4, 0],
             }}
             transition={{
-              opacity: { duration: 1, delay: 0.52 },
-              scale: { duration: 1.1, delay: 0.52, ease: [0.16, 1, 0.3, 1] },
+              opacity: { duration: 0.8, delay: 0.35 },
+              scale: { duration: 0.9, delay: 0.35, ease: [0.16, 1, 0.3, 1] },
               rotate: { duration: 6, repeat: Infinity, ease: 'easeInOut' },
               y: { duration: 4.8, repeat: Infinity, ease: 'easeInOut' },
             }}
-            className="absolute -bottom-5 -right-4 sm:-bottom-9 sm:-right-8 w-24 xs:w-28 sm:w-44 md:w-48 h-28 xs:h-32 sm:h-48 md:h-52 pointer-events-none z-30"
+            className="absolute -bottom-5 -right-4 sm:-bottom-9 sm:-right-8 w-24 xs:w-28 sm:w-44 md:w-48 h-28 xs:h-32 sm:h-48 md:h-52 pointer-events-none z-30 will-change-transform"
           >
             <RealisticAlstroemeriaSprigSVG className="w-full h-full drop-shadow-[0_10px_18px_rgba(45,15,24,0.24)]" />
           </motion.div>
@@ -170,18 +177,18 @@ export const LotusHeroSection: React.FC = () => {
           {/* =============================================================== */}
           <div className="relative z-20 flex flex-col items-center">
             <motion.p
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.85, delay: 0.42, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.7, delay: 0.28, ease: [0.16, 1, 0.3, 1] }}
               className="font-serif text-[11px] xs:text-xs sm:text-lg md:text-[22px] tracking-[0.14em] uppercase text-[#8C705F] font-normal mb-2 sm:mb-6 md:mb-8"
             >
               SAVE THE DATE
             </motion.p>
 
             <motion.h1
-              initial={{ opacity: 0, y: 16, filter: 'blur(4px)' }}
-              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-              transition={{ duration: 0.95, delay: 0.58, ease: [0.16, 1, 0.3, 1] }}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.75, delay: 0.38, ease: [0.16, 1, 0.3, 1] }}
               className="text-3xl xs:text-4xl sm:text-5xl md:text-[64px] font-medium text-[#161616] leading-tight tracking-normal"
               style={{ fontFamily: 'var(--font-hindi)' }}
             >
@@ -189,18 +196,18 @@ export const LotusHeroSection: React.FC = () => {
             </motion.h1>
 
             <motion.span
-              initial={{ opacity: 0, scale: 0.6 }}
+              initial={{ opacity: 0, scale: 0.7 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.75, delay: 0.74, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.65, delay: 0.48, ease: [0.16, 1, 0.3, 1] }}
               className="font-serif text-lg xs:text-xl sm:text-3xl md:text-4xl text-[#2B2B2B] my-1 sm:my-3 md:my-4 font-light"
             >
               &amp;
             </motion.span>
 
             <motion.h1
-              initial={{ opacity: 0, y: 16, filter: 'blur(4px)' }}
-              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-              transition={{ duration: 0.95, delay: 0.88, ease: [0.16, 1, 0.3, 1] }}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.75, delay: 0.58, ease: [0.16, 1, 0.3, 1] }}
               className="text-3xl xs:text-4xl sm:text-5xl md:text-[64px] font-medium text-[#161616] leading-tight tracking-normal"
               style={{ fontFamily: 'var(--font-hindi)' }}
             >
@@ -208,13 +215,13 @@ export const LotusHeroSection: React.FC = () => {
             </motion.h1>
 
             <motion.p
-              initial={{ opacity: 0, y: 10 }}
+              initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.85, delay: 1.05, ease: [0.16, 1, 0.3, 1] }}
-              className="mt-3 sm:mt-8 md:mt-10 text-[10.5px] xs:text-xs sm:text-base md:text-[18px] text-[#1F1F1F] font-medium tracking-wide whitespace-nowrap"
+              transition={{ duration: 0.7, delay: 0.68, ease: [0.16, 1, 0.3, 1] }}
+              className="mt-3 sm:mt-8 md:mt-10 text-xs xs:text-sm sm:text-lg md:text-[20px] text-[#1F1F1F] font-medium tracking-wide whitespace-nowrap"
               style={{ fontFamily: 'var(--font-hindi)' }}
             >
-              09 दिसंबर 2026 &bull; दरियापुर बाज़ार
+              09 दिसंबर 2026
             </motion.p>
           </div>
         </motion.div>
