@@ -2,14 +2,18 @@ import { useEffect, useState } from 'react';
 
 export interface GeneratedWeddingPortraits {
   haldi: string;
+  mehndi: string;
+  tilakotsav: string;
   weddingMandap: string;
   royalSangeet: string;
-  aisleWalk: string;
-  romanticCameo: string;
   grandReception: string;
 }
 
-const CUTOUT_SRC =
+export const ORIGINAL_HALDI_SRC =
+  '/assets/aistudio/Joyful_Haldi_Ceremony_Portrait_91999f4b.png';
+export const ORIGINAL_MEHNDI_SRC =
+  '/assets/aistudio/Festive_Mehndi_Portrait_with_Henna_Hands_6a2f3b0b.png';
+export const CUTOUT_SRC =
   '/assets/aistudio/ashish_tannu_illustration__1_-Photoroom_dbb07264.png';
 const MANDAP_BG_SRC =
   '/assets/aistudio/Generate_hero_section_image_b833de66_2K_835376e8.jpg';
@@ -17,12 +21,12 @@ const AISLE_BG_SRC =
   '/assets/aistudio/Generate_hero_section_image_52c9c525_2K_6cd27f92.jpg';
 
 const DEFAULT_PORTRAITS: GeneratedWeddingPortraits = {
-  haldi: CUTOUT_SRC,
-  weddingMandap: CUTOUT_SRC,
+  haldi: ORIGINAL_HALDI_SRC,
+  mehndi: ORIGINAL_MEHNDI_SRC,
+  tilakotsav: CUTOUT_SRC,
+  weddingMandap: ORIGINAL_MEHNDI_SRC,
   royalSangeet: CUTOUT_SRC,
-  aisleWalk: CUTOUT_SRC,
-  romanticCameo: CUTOUT_SRC,
-  grandReception: CUTOUT_SRC,
+  grandReception: ORIGINAL_HALDI_SRC,
 };
 
 let cachedPortraits: GeneratedWeddingPortraits | null = null;
@@ -37,9 +41,6 @@ function loadImage(src: string): Promise<HTMLImageElement> {
   });
 }
 
-/**
- * Draws soft bokeh light orbs and floating marigold/rose petals onto a canvas context
- */
 function drawBokehAndPetals(
   ctx: CanvasRenderingContext2D,
   w: number,
@@ -48,11 +49,11 @@ function drawBokehAndPetals(
   seedOffset = 0
 ) {
   ctx.save();
-  for (let i = 0; i < 24; i++) {
+  for (let i = 0; i < 22; i++) {
     const angle = (i + seedOffset) * 1.37;
     const x = ((Math.sin(angle * 2.1) * 0.5 + 0.5) * w) % w;
     const y = ((Math.cos(angle * 1.7) * 0.5 + 0.5) * h) % h;
-    const r = 14 + ((i * 19) % 46);
+    const r = 14 + ((i * 19) % 44);
 
     const grad = ctx.createRadialGradient(x, y, 0, x, y, r);
     const color = palette.orbs[i % palette.orbs.length];
@@ -65,15 +66,12 @@ function drawBokehAndPetals(
     ctx.fill();
   }
 
-  // Foreground corner floral bokeh petals
-  for (let i = 0; i < 16; i++) {
-    const isTop = i < 10;
-    const x = ((i * 97 + seedOffset * 31) % w);
-    const y = isTop
-      ? ((i * 23) % (h * 0.28))
-      : h - ((i * 29) % (h * 0.22));
-    const rx = 8 + (i % 9);
-    const ry = 14 + (i % 11);
+  for (let i = 0; i < 14; i++) {
+    const isTop = i < 9;
+    const x = (i * 97 + seedOffset * 31) % w;
+    const y = isTop ? (i * 23) % (h * 0.26) : h - ((i * 29) % (h * 0.2));
+    const rx = 7 + (i % 8);
+    const ry = 13 + (i % 10);
     const rot = (i * 0.65) % Math.PI;
 
     ctx.save();
@@ -88,10 +86,6 @@ function drawBokehAndPetals(
   ctx.restore();
 }
 
-/**
- * Generates 6 distinct photorealistic wedding portraits of the exact given Groom & Bride
- * (`ashish_tannu_illustration__1_-Photoroom_dbb07264.png`) across 6 wedding atmospheres.
- */
 export function useGeneratedCouplePortraits(): GeneratedWeddingPortraits {
   const [portraits, setPortraits] = useState<GeneratedWeddingPortraits>(
     cachedPortraits || DEFAULT_PORTRAITS
@@ -124,7 +118,6 @@ export function useGeneratedCouplePortraits(): GeneratedWeddingPortraits {
           return canvas.toDataURL('image/jpeg', 0.92);
         };
 
-        // Helper to draw the exact Bride & Groom cutout with studio rim light & drop shadow
         const drawCouple = (
           ctx: CanvasRenderingContext2D,
           w: number,
@@ -139,7 +132,6 @@ export function useGeneratedCouplePortraits(): GeneratedWeddingPortraits {
           const drawX = (w - drawW) / 2;
           const drawY = h * yOffsetRatio;
 
-          // Warm/Royal backlight halo behind the couple
           const halo = ctx.createRadialGradient(
             w * 0.5,
             h * 0.42,
@@ -161,45 +153,39 @@ export function useGeneratedCouplePortraits(): GeneratedWeddingPortraits {
           ctx.restore();
         };
 
-        // 1. HALDI CEREMONY PORTRAIT (Warm Marigold & Amber Sunlit Courtyard)
-        const haldi = createScene(900, 1100, (ctx, w, h) => {
-          ctx.save();
-          ctx.filter = 'blur(18px) brightness(1.06) sepia(0.28) saturate(1.35)';
-          ctx.drawImage(mandapBg, -w * 0.15, 0, w * 1.45, h);
-          ctx.restore();
-
-          const amberGrad = ctx.createLinearGradient(0, 0, 0, h);
-          amberGrad.addColorStop(0, 'rgba(255, 215, 115, 0.52)');
-          amberGrad.addColorStop(0.5, 'rgba(250, 232, 195, 0.35)');
-          amberGrad.addColorStop(1, 'rgba(195, 125, 45, 0.55)');
-          ctx.fillStyle = amberGrad;
+        // Tilakotsav & Preetibhoj Royal Evening Portrait (05 Dec 2026)
+        const tilakotsav = createScene(900, 1100, (ctx, w, h) => {
+          const royalGrad = ctx.createLinearGradient(0, 0, 0, h);
+          royalGrad.addColorStop(0, '#1B2E46');
+          royalGrad.addColorStop(0.55, '#2A4362');
+          royalGrad.addColorStop(1, '#142234');
+          ctx.fillStyle = royalGrad;
           ctx.fillRect(0, 0, w, h);
 
-          // Hanging Marigold Garland Strings at top
-          for (let gx = 60; gx < w; gx += 110) {
-            for (let gy = 0; gy < 190 + (gx % 70); gy += 28) {
-              ctx.beginPath();
-              ctx.arc(gx, gy, 13, 0, Math.PI * 2);
-              ctx.fillStyle = gy % 56 === 0 ? '#F59E0B' : '#FBBF24';
-              ctx.fill();
-            }
-          }
-
-          drawCouple(ctx, w, h, 1.32, 0.08, 'rgba(255, 244, 200, 0.78)');
+          ctx.strokeStyle = 'rgba(225, 210, 185, 0.35)';
+          ctx.lineWidth = 3;
+          ctx.beginPath();
+          ctx.arc(w / 2, h * 0.42, w * 0.39, Math.PI, 0);
+          ctx.lineTo(w * 0.89, h);
+          ctx.moveTo(w * 0.11, h * 0.42);
+          ctx.lineTo(w * 0.11, h);
+          ctx.stroke();
 
           drawBokehAndPetals(
             ctx,
             w,
             h,
             {
-              orbs: ['rgba(255, 210, 90, 0.35)', 'rgba(255, 245, 200, 0.4)'],
-              petals: ['rgba(245, 158, 11, 0.75)', 'rgba(251, 191, 36, 0.8)'],
+              orbs: ['rgba(255, 232, 175, 0.35)', 'rgba(205, 222, 240, 0.38)'],
+              petals: ['rgba(235, 215, 180, 0.6)', 'rgba(255, 238, 195, 0.55)'],
             },
-            1
+            3
           );
+
+          drawCouple(ctx, w, h, 1.32, 0.07, 'rgba(220, 235, 255, 0.52)');
         });
 
-        // 2. THE WEDDING MANDAP PORTRAIT (Golden Hour Lotus & Rose Mandap)
+        // Shubh Vivah Mandap Portrait (09 Dec 2026)
         const weddingMandap = createScene(900, 1100, (ctx, w, h) => {
           ctx.save();
           ctx.filter = 'blur(14px) brightness(1.04)';
@@ -226,44 +212,11 @@ export function useGeneratedCouplePortraits(): GeneratedWeddingPortraits {
           );
         });
 
-        // 3. ROYAL NAVY & SILVER SANGEET NIGHT (Starlit Palace & Chandeliers)
-        const royalSangeet = createScene(900, 1100, (ctx, w, h) => {
-          const nightGrad = ctx.createLinearGradient(0, 0, 0, h);
-          nightGrad.addColorStop(0, '#132235');
-          nightGrad.addColorStop(0.55, '#213852');
-          nightGrad.addColorStop(1, '#101C2B');
-          ctx.fillStyle = nightGrad;
-          ctx.fillRect(0, 0, w, h);
-
-          // Ornate Silver Palace Arch in Background
-          ctx.strokeStyle = 'rgba(210, 225, 242, 0.28)';
-          ctx.lineWidth = 3;
-          ctx.beginPath();
-          ctx.arc(w / 2, h * 0.42, w * 0.38, Math.PI, 0);
-          ctx.lineTo(w * 0.88, h);
-          ctx.moveTo(w * 0.12, h * 0.42);
-          ctx.lineTo(w * 0.12, h);
-          ctx.stroke();
-
-          drawBokehAndPetals(
-            ctx,
-            w,
-            h,
-            {
-              orbs: ['rgba(255, 235, 180, 0.32)', 'rgba(197, 213, 230, 0.36)'],
-              petals: ['rgba(220, 232, 245, 0.55)', 'rgba(255, 230, 185, 0.5)'],
-            },
-            3
-          );
-
-          drawCouple(ctx, w, h, 1.3, 0.08, 'rgba(210, 228, 248, 0.48)');
-        });
-
-        // 4. ROYAL AISLE WALK PORTRAIT (White Palace Pillars & Rose Archway)
-        const aisleWalk = createScene(1100, 880, (ctx, w, h) => {
+        // Royal Aisle / Baraat Welcome Scene
+        const grandReception = createScene(900, 1100, (ctx, w, h) => {
           ctx.save();
           ctx.filter = 'blur(12px) brightness(1.04)';
-          ctx.drawImage(aisleBg, 0, 0, w, h);
+          ctx.drawImage(aisleBg, -w * 0.1, 0, w * 1.25, h);
           ctx.restore();
 
           const softWash = ctx.createRadialGradient(
@@ -279,7 +232,7 @@ export function useGeneratedCouplePortraits(): GeneratedWeddingPortraits {
           ctx.fillStyle = softWash;
           ctx.fillRect(0, 0, w, h);
 
-          drawCouple(ctx, w, h, 1.52, 0.05, 'rgba(255, 250, 244, 0.78)');
+          drawCouple(ctx, w, h, 1.35, 0.06, 'rgba(255, 250, 244, 0.82)');
 
           drawBokehAndPetals(
             ctx,
@@ -293,76 +246,18 @@ export function useGeneratedCouplePortraits(): GeneratedWeddingPortraits {
           );
         });
 
-        // 5. ROMANTIC CLOSE-UP CAMEO PORTRAIT (Intimate Waist-Up Framing)
-        const romanticCameo = createScene(900, 1100, (ctx, w, h) => {
-          const studioGrad = ctx.createRadialGradient(
-            w * 0.5,
-            h * 0.36,
-            w * 0.08,
-            w * 0.5,
-            h * 0.5,
-            w * 0.75
-          );
-          studioGrad.addColorStop(0, '#FAF6F0');
-          studioGrad.addColorStop(0.55, '#E5DDD2');
-          studioGrad.addColorStop(1, '#C5B8A8');
-          ctx.fillStyle = studioGrad;
-          ctx.fillRect(0, 0, w, h);
-
-          drawCouple(ctx, w, h, 1.62, 0.04, 'rgba(255, 255, 255, 0.85)');
-
-          drawBokehAndPetals(
-            ctx,
-            w,
-            h,
-            {
-              orbs: ['rgba(255, 245, 238, 0.4)', 'rgba(245, 208, 220, 0.32)'],
-              petals: ['rgba(235, 145, 168, 0.68)', 'rgba(250, 215, 225, 0.72)'],
-            },
-            5
-          );
-        });
-
-        // 6. GRAND RECEPTION ROYAL PAVILION PORTRAIT
-        const grandReception = createScene(900, 1100, (ctx, w, h) => {
-          const recGrad = ctx.createLinearGradient(0, 0, 0, h);
-          recGrad.addColorStop(0, '#EBE4DA');
-          recGrad.addColorStop(0.5, '#DDD2C4');
-          recGrad.addColorStop(1, '#BFB09E');
-          ctx.fillStyle = recGrad;
-          ctx.fillRect(0, 0, w, h);
-
-          // Subtle Royal Jharokha Arch Lines
-          ctx.strokeStyle = 'rgba(255, 255, 255, 0.65)';
-          ctx.lineWidth = 2.5;
-          ctx.strokeRect(42, 42, w - 84, h - 84);
-
-          drawCouple(ctx, w, h, 1.18, 0.06, 'rgba(255, 252, 245, 0.85)');
-
-          drawBokehAndPetals(
-            ctx,
-            w,
-            h,
-            {
-              orbs: ['rgba(255, 238, 205, 0.42)', 'rgba(255, 255, 255, 0.45)'],
-              petals: ['rgba(225, 165, 180, 0.65)', 'rgba(245, 220, 190, 0.7)'],
-            },
-            6
-          );
-        });
-
         cachedPortraits = {
-          haldi,
+          haldi: ORIGINAL_HALDI_SRC,
+          mehndi: ORIGINAL_MEHNDI_SRC,
+          tilakotsav,
           weddingMandap,
-          royalSangeet,
-          aisleWalk,
-          romanticCameo,
+          royalSangeet: tilakotsav,
           grandReception,
         };
         setPortraits(cachedPortraits);
       })
       .catch(() => {
-        // Fallback to raw cutout if needed
+        // Fallback to original uploaded images
       });
 
     return () => {

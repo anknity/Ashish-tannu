@@ -760,10 +760,10 @@ export default function App() {
                   onClick={() =>
                     setLightboxMemory({
                       ...POLAROID_MEMORIES[0],
-                      imageSrc: portraits.aisleWalk,
+                      imageSrc: portraits.haldi,
                     })
                   }
-                  aria-label="Inspect Ashish and Tannu Aisle Portrait in Lightbox"
+                  aria-label="Inspect Ashish and Tannu Haldi Portrait in Lightbox"
                   initial={{ opacity: 0, x: 30, rotate: -9, scale: 0.92 }}
                   whileInView={{ opacity: 1, x: 0, rotate: -4, scale: 1 }}
                   viewport={{ once: true, amount: 0.3 }}
@@ -774,9 +774,9 @@ export default function App() {
                 >
                   <div className="aspect-[4/3] overflow-hidden bg-[#D8CFC4]">
                     <img
-                      src={portraits.aisleWalk}
+                      src={portraits.haldi}
                       alt={POLAROID_MEMORIES[0].title}
-                      className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                      className="w-full h-full object-cover object-[50%_18%] transition-transform duration-700 group-hover:scale-105"
                     />
                   </div>
                   <div className="pt-1.5 sm:pt-2 flex items-center justify-between text-[#2A3B4E]">
@@ -945,16 +945,16 @@ export default function App() {
                   </span>
                 </motion.button>
 
-                {/* Second Polaroid (Golden Hour Mandap Portrait of Ashish & Tannu) */}
+                {/* Second Polaroid (Original Festive Mehndi Portrait of Ashish & Tannu) */}
                 <motion.button
                   type="button"
                   onClick={() =>
                     setLightboxMemory({
                       ...POLAROID_MEMORIES[1],
-                      imageSrc: portraits.weddingMandap,
+                      imageSrc: portraits.mehndi,
                     })
                   }
-                  aria-label="Inspect Golden Hour Mandap Polaroid in Lightbox"
+                  aria-label="Inspect Festive Mehndi Polaroid in Lightbox"
                   initial={{ opacity: 0, x: 24, rotate: 7, scale: 0.92 }}
                   whileInView={{ opacity: 1, x: 0, rotate: 2.5, scale: 1 }}
                   viewport={{ once: true, amount: 0.3 }}
@@ -965,9 +965,9 @@ export default function App() {
                 >
                   <div className="aspect-square overflow-hidden bg-[#2C3A35]">
                     <img
-                      src={portraits.weddingMandap}
+                      src={portraits.mehndi}
                       alt={POLAROID_MEMORIES[1].title}
-                      className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                      className="w-full h-full object-cover object-[50%_18%] transition-transform duration-700 group-hover:scale-105"
                     />
                   </div>
                   <div className="pt-1.5 sm:pt-2 flex items-center justify-between text-[#2A3B4E]">

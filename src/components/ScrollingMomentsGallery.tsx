@@ -25,30 +25,30 @@ const FRAMED_GALLERY_ITEMS: FramedGalleryItem[] = [
   {
     id: 'frame-arch',
     frameStyle: 'arch',
-    portraitKey: 'aisleWalk',
-    objectPosition: 'object-top',
-    title: 'The Royal Aisle Walk',
-    hindiTag: 'शुभ मिलन • दरियापुर बाज़ार',
+    portraitKey: 'haldi',
+    objectPosition: 'object-[50%_18%]',
+    title: 'सत्यनारायण कथा एवं हल्दी कलश',
+    hindiTag: '07 दिसंबर 2026 (सोमवार) • हल्दी उत्सव',
     caption: 'Arch Frame I',
     memoryIndex: 0,
   },
   {
     id: 'frame-polaroid',
     frameStyle: 'polaroid',
-    portraitKey: 'haldi',
-    objectPosition: 'object-top',
-    title: 'Haldi & Marigold Glow',
-    hindiTag: 'हल्दी उत्सव • 08 दिसंबर 2026',
+    portraitKey: 'mehndi',
+    objectPosition: 'object-[50%_18%]',
+    title: 'संगीत एवं मेहंदी रस्म',
+    hindiTag: '08 दिसंबर 2026 (मंगलवार) • मेहंदी उत्सव',
     caption: 'Vintage Polaroid II',
     memoryIndex: 1,
   },
   {
     id: 'frame-oval',
     frameStyle: 'oval',
-    portraitKey: 'royalSangeet',
+    portraitKey: 'tilakotsav',
     objectPosition: 'object-top',
-    title: 'Moonstone Navy & Silver',
-    hindiTag: 'संगीत संध्या • शाही अंदाज़',
+    title: 'शुभ तिलकोत्सव एवं प्रीतिभोज',
+    hindiTag: '05 दिसंबर 2026 (शनिवार)',
     caption: 'Oval Cameo III',
     memoryIndex: 2,
   },
@@ -57,30 +57,30 @@ const FRAMED_GALLERY_ITEMS: FramedGalleryItem[] = [
     frameStyle: 'museum',
     portraitKey: 'weddingMandap',
     objectPosition: 'object-top',
-    title: 'Sacred Promises at the Mandap',
-    hindiTag: 'सात जन्मों का साथ',
+    title: 'शुभ बारात एवं शुभ विवाह',
+    hindiTag: '09 दिसंबर 2026 (बुधवार) • दरियापुर बाज़ार',
     caption: 'Museum Passepartout IV',
     memoryIndex: 0,
   },
   {
     id: 'frame-pill',
     frameStyle: 'pill',
-    portraitKey: 'romanticCameo',
-    objectPosition: 'object-top',
-    title: 'Ashish & Tannu Forever',
-    hindiTag: 'आशीष & तन्नू',
+    portraitKey: 'mehndi',
+    objectPosition: 'object-[50%_22%]',
+    title: 'Ashish & Tannu — Mehndi Glow',
+    hindiTag: 'आशीष & तन्नू • 08 दिसंबर 2026',
     caption: 'Lotus Pill Frame V',
     memoryIndex: 1,
   },
   {
     id: 'frame-heirloom',
     frameStyle: 'heirloom',
-    portraitKey: 'grandReception',
-    objectPosition: 'object-top',
-    title: 'Grand Reception Portrait',
+    portraitKey: 'haldi',
+    objectPosition: 'object-[50%_18%]',
+    title: 'Haldi Blessings & Marigold',
     hindiTag: 'शुभ विवाह • 2026',
     caption: 'Heirloom Crest VI',
-    memoryIndex: 2,
+    memoryIndex: 0,
   },
 ];
 
@@ -205,9 +205,9 @@ export const ScrollingMomentsGallery: React.FC<ScrollingMomentsGalleryProps> = (
           const baseMemory = POLAROID_MEMORIES[item.memoryIndex];
           const resolvedMemory: PolaroidMemory = {
             ...baseMemory,
-            id: `${item.id}-${idx}`,
+            id: baseMemory.id,
             title: item.title,
-            handwrittenCaption: `${item.title} — आशीष & तन्नू`,
+            handwrittenCaption: item.hindiTag,
             imageSrc: itemImageSrc,
           };
 
@@ -239,9 +239,7 @@ export const ScrollingMomentsGallery: React.FC<ScrollingMomentsGalleryProps> = (
               whileTap={{ scale: 0.98 }}
               className="group relative shrink-0 cursor-pointer will-change-transform"
             >
-              {/* =========================================================== */}
-              {/* 1. ROYAL ARCH / JHAROKHA DOME FRAME                         */}
-              {/* =========================================================== */}
+              {/* 1. ROYAL ARCH / JHAROKHA DOME FRAME */}
               {item.frameStyle === 'arch' && (
                 <div className="w-[270px] sm:w-[300px] bg-[#FAF7F2] p-4 rounded-t-[160px] rounded-b-md shadow-[0_18px_40px_rgba(20,32,48,0.14)] border-2 border-[#C8B9A6] relative">
                   <div className="absolute inset-2.5 rounded-t-[150px] rounded-b-sm border border-[#B59E7D]/60 pointer-events-none z-10" />
@@ -254,24 +252,24 @@ export const ScrollingMomentsGallery: React.FC<ScrollingMomentsGalleryProps> = (
                   </div>
                   <div className="pt-3.5 pb-1 text-center">
                     <p
-                      className="text-sm text-[#6E5D46] font-medium"
+                      className="text-xs text-[#6E5D46] font-medium"
                       style={{ fontFamily: 'var(--font-hindi)' }}
                     >
                       {item.hindiTag}
                     </p>
-                    <h3 className="font-serif text-lg font-semibold text-[#1B2C40]">
+                    <h3
+                      className="text-base sm:text-lg font-semibold text-[#1B2C40] mt-0.5"
+                      style={{ fontFamily: 'var(--font-hindi)' }}
+                    >
                       {item.title}
                     </h3>
                   </div>
                 </div>
               )}
 
-              {/* =========================================================== */}
-              {/* 2. VINTAGE TILTED POLAROID FRAME WITH TAPE ACCENT           */}
-              {/* =========================================================== */}
+              {/* 2. VINTAGE TILTED POLAROID FRAME WITH TAPE ACCENT */}
               {item.frameStyle === 'polaroid' && (
                 <div className="w-[280px] sm:w-[310px] bg-[#FDFBF7] p-3.5 pb-6 shadow-[0_20px_44px_rgba(20,32,48,0.16)] border border-[#E2DCD3] transform -rotate-2 group-hover:rotate-0 transition-transform duration-500 relative">
-                  {/* Top Washi Tape Accent */}
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-24 h-6 bg-[#E6DEC8]/80 border border-[#C8B9A6]/50 rotate-1 shadow-sm pointer-events-none z-20" />
                   <div className="w-full h-[310px] sm:h-[340px] overflow-hidden bg-[#D8CFC4]">
                     <img
@@ -280,8 +278,13 @@ export const ScrollingMomentsGallery: React.FC<ScrollingMomentsGalleryProps> = (
                       className={`w-full h-full object-cover ${item.objectPosition} transition-transform duration-700 group-hover:scale-105`}
                     />
                   </div>
-                  <div className="pt-4 px-2 flex items-baseline justify-between">
-                    <span className="font-alex text-2xl text-[#1E3148]">{item.title}</span>
+                  <div className="pt-4 px-2 flex flex-col gap-0.5 text-center">
+                    <span
+                      className="text-base sm:text-lg font-semibold text-[#1E3148]"
+                      style={{ fontFamily: 'var(--font-hindi)' }}
+                    >
+                      {item.title}
+                    </span>
                     <span
                       className="text-xs text-[#6E5D46]"
                       style={{ fontFamily: 'var(--font-hindi)' }}
@@ -292,9 +295,7 @@ export const ScrollingMomentsGallery: React.FC<ScrollingMomentsGalleryProps> = (
                 </div>
               )}
 
-              {/* =========================================================== */}
-              {/* 3. OVAL MEDALLION CAMEO FRAME                               */}
-              {/* =========================================================== */}
+              {/* 3. OVAL MEDALLION CAMEO FRAME */}
               {item.frameStyle === 'oval' && (
                 <div className="w-[270px] sm:w-[295px] flex flex-col items-center">
                   <div className="relative w-full h-[360px] sm:h-[390px] rounded-full bg-gradient-to-b from-[#23384E] to-[#152333] p-4 shadow-[0_20px_45px_rgba(19,32,48,0.22)] border-[3px] border-[#C5B49E] flex items-end justify-center overflow-hidden">
@@ -312,16 +313,17 @@ export const ScrollingMomentsGallery: React.FC<ScrollingMomentsGalleryProps> = (
                     >
                       {item.hindiTag}
                     </p>
-                    <h3 className="font-serif text-lg font-semibold text-[#1B2C40]">
+                    <h3
+                      className="text-base sm:text-lg font-semibold text-[#1B2C40] mt-0.5"
+                      style={{ fontFamily: 'var(--font-hindi)' }}
+                    >
                       {item.title}
                     </h3>
                   </div>
                 </div>
               )}
 
-              {/* =========================================================== */}
-              {/* 4. WIDE MUSEUM PASSEPARTOUT DOUBLE-MAT FRAME                */}
-              {/* =========================================================== */}
+              {/* 4. WIDE MUSEUM PASSEPARTOUT DOUBLE-MAT FRAME */}
               {item.frameStyle === 'museum' && (
                 <div className="w-[340px] sm:w-[390px] bg-[#FAF8F5] p-6 sm:p-7 shadow-[0_18px_42px_rgba(20,32,48,0.15)] border-2 border-[#B8B0A4] relative">
                   <div className="absolute inset-3 border border-[#D4CBBF] pointer-events-none" />
@@ -334,7 +336,10 @@ export const ScrollingMomentsGallery: React.FC<ScrollingMomentsGalleryProps> = (
                   </div>
                   <div className="pt-4 flex items-center justify-between text-left">
                     <div>
-                      <h3 className="font-serif text-lg font-semibold text-[#1B2C40]">
+                      <h3
+                        className="text-base sm:text-lg font-semibold text-[#1B2C40]"
+                        style={{ fontFamily: 'var(--font-hindi)' }}
+                      >
                         {item.title}
                       </h3>
                       <p
@@ -351,9 +356,7 @@ export const ScrollingMomentsGallery: React.FC<ScrollingMomentsGalleryProps> = (
                 </div>
               )}
 
-              {/* =========================================================== */}
-              {/* 5. VERTICAL STADIUM PILL ARCH FRAME                         */}
-              {/* =========================================================== */}
+              {/* 5. VERTICAL STADIUM PILL ARCH FRAME */}
               {item.frameStyle === 'pill' && (
                 <div className="w-[265px] sm:w-[290px] bg-white p-3.5 rounded-[150px] shadow-[0_18px_40px_rgba(20,32,48,0.14)] border border-[#D8D0C5] relative">
                   <div className="w-full h-[365px] sm:h-[395px] rounded-[140px] overflow-hidden bg-[#EAE3DA] relative">
@@ -367,9 +370,7 @@ export const ScrollingMomentsGallery: React.FC<ScrollingMomentsGalleryProps> = (
                 </div>
               )}
 
-              {/* =========================================================== */}
-              {/* 6. HEIRLOOM DOUBLE-BORDER CREST FRAME                       */}
-              {/* =========================================================== */}
+              {/* 6. HEIRLOOM DOUBLE-BORDER CREST FRAME */}
               {item.frameStyle === 'heirloom' && (
                 <div className="w-[275px] sm:w-[305px] cream-card-paper scallop-card p-5 transform rotate-1 group-hover:rotate-0 transition-transform duration-500">
                   <div className="w-full h-[310px] sm:h-[340px] rounded-sm overflow-hidden bg-gradient-to-b from-[#DDD4CA] to-[#C8BDB0] flex items-end justify-center border border-[#9E9284]">

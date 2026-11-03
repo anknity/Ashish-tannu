@@ -117,15 +117,15 @@ export const PolaroidLightbox: React.FC<PolaroidLightboxProps> = ({
   const enrichedMemories: PolaroidMemory[] = [
     {
       ...POLAROID_MEMORIES[0],
-      imageSrc: portraits.aisleWalk,
+      imageSrc: portraits.haldi,
     },
     {
       ...POLAROID_MEMORIES[1],
-      imageSrc: portraits.weddingMandap,
+      imageSrc: portraits.mehndi,
     },
     {
       ...POLAROID_MEMORIES[2],
-      imageSrc: portraits.royalSangeet,
+      imageSrc: portraits.tilakotsav,
     },
   ];
 

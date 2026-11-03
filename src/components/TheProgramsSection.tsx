@@ -12,8 +12,11 @@ interface TheProgramsSectionProps {
 }
 
 interface ProgramBlock {
-  title: string;
-  subtitleHindi: string;
+  dateHindi: string;
+  dayHindi: string;
+  englishTitle: string;
+  mainProgramHindi: string;
+  noteHindi?: string;
   portraitKey: keyof GeneratedWeddingPortraits;
   memoryIndex: number;
   items: {
@@ -24,36 +27,53 @@ interface ProgramBlock {
 
 const PROGRAM_BLOCKS: ProgramBlock[] = [
   {
-    title: 'The Haldi',
-    subtitleHindi: '08 दिसंबर 2026 • हल्दी एवं संगीत',
-    portraitKey: 'haldi',
-    memoryIndex: 1,
-    items: [
-      { label: 'Haldi Utsav', time: '03:00 PM' },
-      { label: 'Mehendi Rasam', time: '05:00 PM' },
-      { label: 'Sangeet Night', time: '08:00 PM' },
-    ],
-  },
-  {
-    title: 'The Wedding',
-    subtitleHindi: '09 दिसंबर 2026 • शुभ विवाह (दरियापुर बाज़ार)',
-    portraitKey: 'weddingMandap',
-    memoryIndex: 0,
-    items: [
-      { label: 'Ceremony', time: '03:00 PM' },
-      { label: 'Sadi', time: '05:00 PM' },
-      { label: 'Farewell', time: '08:00 PM' },
-    ],
-  },
-  {
-    title: 'The Reception',
-    subtitleHindi: '10 दिसंबर 2026 • आशीर्वाद समारोह',
-    portraitKey: 'grandReception',
+    dateHindi: '05 दिसंबर 2026',
+    dayHindi: 'शनिवार',
+    englishTitle: 'Tilakotsav & Preetibhoj',
+    mainProgramHindi: '~ शुभ तिलकोत्सव एवं संध्या में प्रीतिभोज',
+    portraitKey: 'tilakotsav',
     memoryIndex: 2,
     items: [
-      { label: 'Welcome & Swagat', time: '03:00 PM' },
-      { label: 'Ashirwad Ceremony', time: '05:00 PM' },
-      { label: 'Grand Banquet', time: '08:00 PM' },
+      { label: 'शुभ तिलकोत्सव', time: '05 दिसंबर' },
+      { label: 'संध्या प्रीतिभोज', time: 'संध्या बेला' },
+    ],
+  },
+  {
+    dateHindi: '07 दिसंबर 2026',
+    dayHindi: 'सोमवार',
+    englishTitle: 'Satyanarayan Katha & Haldi',
+    mainProgramHindi: '~ सत्यनारायण कथा, एवं हल्दी कलश',
+    portraitKey: 'haldi',
+    memoryIndex: 0,
+    items: [
+      { label: 'सत्यनारायण कथा', time: '07 दिसंबर' },
+      { label: 'हल्दी कलश रस्म', time: 'मंगल बेला' },
+    ],
+  },
+  {
+    dateHindi: '08 दिसंबर 2026',
+    dayHindi: 'मंगलवार',
+    englishTitle: 'Sangeet & Mehndi Rasam',
+    mainProgramHindi: '~ संगीत एवं मेहंदी रस्म',
+    portraitKey: 'mehndi',
+    memoryIndex: 1,
+    items: [
+      { label: 'मेहंदी रस्म', time: '08 दिसंबर' },
+      { label: 'संगीत संध्या', time: 'संध्या बेला' },
+    ],
+  },
+  {
+    dateHindi: '09 दिसंबर 2026',
+    dayHindi: 'बुधवार',
+    englishTitle: 'Shubh Baraat & Vivah',
+    mainProgramHindi: '~ शुभ बारात प्रस्थान एवं रात्रि लग्न बेला में शुभ विवाह -',
+    noteHindi:
+      '( शुभ बारात हमारे निज निवास रसूलपुर (नयागांव) से - संध्या 5:00 बजे निजी वाहनों द्वारा दरियापुर बाज़ार के लिए प्रस्थान करेगी। )',
+    portraitKey: 'weddingMandap',
+    memoryIndex: 2,
+    items: [
+      { label: 'शुभ बारात प्रस्थान', time: 'संध्या 05:00 बजे' },
+      { label: 'शुभ विवाह संस्कार', time: 'रात्रि लग्न बेला' },
     ],
   },
 ];
@@ -83,7 +103,7 @@ export const TheProgramsSection: React.FC<TheProgramsSectionProps> = ({
       {/* =================================================================== */}
       {/* SPLIT LAYOUT WITH PADDED FLORAL OVAL PILL FRAME ON LEFT             */}
       {/* =================================================================== */}
-      <div className="relative w-full min-h-[780px] lg:min-h-[860px] grid grid-cols-1 lg:grid-cols-12">
+      <div className="relative w-full min-h-[820px] lg:min-h-[940px] grid grid-cols-1 lg:grid-cols-12">
         {/* LEFT COLUMN (Cols 1-6): Vertical Oval Pill Frame with Proper Inner Image Padding + Top-Right Alstroemeria + Bottom-Left Oriental Stargazer Lilies */}
         <div className="relative lg:col-span-6 bg-[#EFECE6] flex flex-col items-center justify-center pt-14 pb-12 sm:py-20 lg:py-28 px-4 sm:px-6 lg:pr-24 overflow-hidden">
           {/* Mobile & Tablet Styled Heading at Very Top of Section */}
@@ -135,7 +155,6 @@ export const TheProgramsSection: React.FC<TheProgramsSectionProps> = ({
             >
               {/* Inner White-Bordered Clipped Oval Frame — Strictly clips the image inside the white border with generous top & side padding */}
               <div className="relative w-full h-full rounded-[9999px] border-[1.5px] border-white/95 overflow-hidden flex items-end justify-center pt-8 sm:pt-11 px-5 sm:px-8 bg-gradient-to-b from-[#DCE5EA]/70 via-[#EAE5DC]/80 to-[#D5CBC0]/90">
-                {/* Soft sunlit studio bokeh glow inside the inner oval */}
                 <div
                   className="absolute inset-0 pointer-events-none"
                   style={{
@@ -153,9 +172,7 @@ export const TheProgramsSection: React.FC<TheProgramsSectionProps> = ({
               </div>
             </motion.div>
 
-            {/* ============================================================= */}
-            {/* TOP-RIGHT HYPER-REALISTIC PINK ALSTROEMERIA / LILY CLUSTER    */}
-            {/* ============================================================= */}
+            {/* TOP-RIGHT HYPER-REALISTIC PINK ALSTROEMERIA / LILY CLUSTER */}
             <motion.div
               animate={{
                 rotate: [0, 3, -2, 0],
@@ -186,7 +203,6 @@ export const TheProgramsSection: React.FC<TheProgramsSectionProps> = ({
                   </filter>
                 </defs>
 
-                {/* Curved Green Stems & Leaves */}
                 <g stroke="url(#progStemGreen)" strokeLinecap="round" fill="none">
                   <path d="M180,215 Q168,162 145,105" strokeWidth="4" />
                   <path d="M162,155 Q122,128 85,95" strokeWidth="3.2" />
@@ -199,7 +215,6 @@ export const TheProgramsSection: React.FC<TheProgramsSectionProps> = ({
                   <path d="M135,122 Q115,105 98,118 Q114,128 135,122 Z" />
                 </g>
 
-                {/* Top Center Blossom */}
                 <g transform="translate(152, 48) rotate(-8)" filter="url(#progFloralShadow)">
                   {[-52, -18, 18, 52, 130, 175].map((ang, idx) => (
                     <g key={`tc-${idx}`} transform={`rotate(${ang})`}>
@@ -219,7 +234,6 @@ export const TheProgramsSection: React.FC<TheProgramsSectionProps> = ({
                   <circle cx="0" cy="-3" r="3.2" fill="#F4D03F" />
                 </g>
 
-                {/* Left Upper Blossom */}
                 <g transform="translate(76, 88) rotate(-32) scale(0.95)" filter="url(#progFloralShadow)">
                   {[-48, -14, 22, 58, 145].map((ang, idx) => (
                     <path
@@ -232,7 +246,6 @@ export const TheProgramsSection: React.FC<TheProgramsSectionProps> = ({
                   <circle cx="0" cy="-3" r="3" fill="#F4D03F" />
                 </g>
 
-                {/* Center Full Open Blossom */}
                 <g transform="translate(132, 98) rotate(8) scale(1.06)" filter="url(#progFloralShadow)">
                   {[0, 58, 118, 178, 238, 298].map((ang, idx) => (
                     <g key={`cf-${idx}`} transform={`rotate(${ang})`}>
@@ -253,7 +266,6 @@ export const TheProgramsSection: React.FC<TheProgramsSectionProps> = ({
                   <circle cx="0" cy="0" r="4" fill="#F2B749" />
                 </g>
 
-                {/* Right Blossom */}
                 <g transform="translate(194, 86) rotate(28) scale(0.88)" filter="url(#progFloralShadow)">
                   {[-42, -8, 28, 65, 150].map((ang, idx) => (
                     <path
@@ -265,7 +277,6 @@ export const TheProgramsSection: React.FC<TheProgramsSectionProps> = ({
                   ))}
                 </g>
 
-                {/* Lower Left Cascading Petal Blossom */}
                 <g transform="translate(102, 134) rotate(-20) scale(0.84)" filter="url(#progFloralShadow)">
                   {[-38, 0, 38, 145, 195].map((ang, idx) => (
                     <path
@@ -279,9 +290,7 @@ export const TheProgramsSection: React.FC<TheProgramsSectionProps> = ({
               </svg>
             </motion.div>
 
-            {/* ============================================================= */}
-            {/* BOTTOM-LEFT HYPER-REALISTIC ORIENTAL STARGAZER LILIES + BUD   */}
-            {/* ============================================================= */}
+            {/* BOTTOM-LEFT HYPER-REALISTIC ORIENTAL STARGAZER LILIES + BUD */}
             <motion.div
               animate={{
                 rotate: [0, -3, 2, 0],
@@ -292,7 +301,6 @@ export const TheProgramsSection: React.FC<TheProgramsSectionProps> = ({
             >
               <svg viewBox="0 0 260 250" className="w-full h-full overflow-visible">
                 <defs>
-                  {/* White-Edged Crimson/Magenta Stargazer Lily Petal Gradient */}
                   <linearGradient id="stargazerPetal" x1="50%" y1="0%" x2="50%" y2="100%">
                     <stop offset="0%" stopColor="#FFFFFF" />
                     <stop offset="22%" stopColor="#F8DCE4" />
@@ -312,14 +320,12 @@ export const TheProgramsSection: React.FC<TheProgramsSectionProps> = ({
                   </linearGradient>
                 </defs>
 
-                {/* Main Woody Green Stems */}
                 <g stroke="#3A4F24" strokeLinecap="round" fill="none">
                   <path d="M210,225 Q155,195 112,135" strokeWidth="4.2" />
                   <path d="M165,198 Q125,188 88,185" strokeWidth="3.4" />
                   <path d="M128,155 Q82,138 42,135" strokeWidth="3" />
                 </g>
 
-                {/* Deep Green Lanceolate Lily Leaves */}
                 <g fill="url(#lilyLeafGrad)">
                   <path d="M115,142 Q72,140 52,175 Q85,158 115,142 Z" />
                   <path d="M125,152 Q158,132 184,148 Q154,158 125,152 Z" />
@@ -327,7 +333,6 @@ export const TheProgramsSection: React.FC<TheProgramsSectionProps> = ({
                   <path d="M165,196 Q188,182 204,208 Q182,206 165,196 Z" />
                 </g>
 
-                {/* Left Unopened Pink-Green Lily Bud */}
                 <g transform="translate(38, 134) rotate(-82)" filter="url(#progFloralShadow)">
                   <path
                     d="M0,0 C-10,-14 -10,-38 0,-52 C10,-38 10,-14 0,0 Z"
@@ -338,7 +343,6 @@ export const TheProgramsSection: React.FC<TheProgramsSectionProps> = ({
                   <path d="M0,0 L0,-50" stroke="#A66D7A" strokeWidth="0.8" opacity="0.6" />
                 </g>
 
-                {/* Upper Main Blooming Oriental Stargazer Lily */}
                 <g transform="translate(116, 108) rotate(-8)" filter="url(#progFloralShadow)">
                   {[-112, -58, 0, 58, 112, 180].map((ang, idx) => (
                     <g key={`sg1-${idx}`} transform={`rotate(${ang})`}>
@@ -348,14 +352,12 @@ export const TheProgramsSection: React.FC<TheProgramsSectionProps> = ({
                         stroke="#FFFFFF"
                         strokeWidth="1.5"
                       />
-                      {/* Central Crimson Vein & Papillae Dots */}
                       <path d="M0,-4 L0,-54" stroke="#7A1138" strokeWidth="1.2" opacity="0.65" />
                       <circle cx="-3" cy="-22" r="0.9" fill="#590925" opacity="0.7" />
                       <circle cx="3" cy="-26" r="0.9" fill="#590925" opacity="0.7" />
                       <circle cx="-2" cy="-34" r="0.8" fill="#590925" opacity="0.7" />
                     </g>
                   ))}
-                  {/* Speckles & Golden-Orange Stamens */}
                   <g stroke="#D89A3C" strokeWidth="1.4" fill="none">
                     <path d="M0,0 Q-12,-24 -18,-38" />
                     <path d="M0,0 Q-4,-28 -6,-44" />
@@ -370,7 +372,6 @@ export const TheProgramsSection: React.FC<TheProgramsSectionProps> = ({
                   </g>
                 </g>
 
-                {/* Lower Secondary Blooming Stargazer Lily */}
                 <g transform="translate(92, 188) rotate(-25) scale(0.76)" filter="url(#progFloralShadow)">
                   {[-105, -52, 0, 52, 105, 175].map((ang, idx) => (
                     <g key={`sg2-${idx}`} transform={`rotate(${ang})`}>
@@ -398,35 +399,37 @@ export const TheProgramsSection: React.FC<TheProgramsSectionProps> = ({
           </motion.div>
         </div>
 
-        {/* RIGHT COLUMN (Cols 7-12): Soft Alabaster Program Timeline (Side-by-Side Thumbnail + Timeline on Phone, Tablet & PC) */}
-        <div className="relative lg:col-span-6 bg-[#F4F4F4] flex flex-col justify-center py-12 sm:py-18 lg:pt-36 lg:pb-24 px-4 sm:px-10 lg:pl-28 lg:pr-16">
-          {/* 3 Stacked Program Rows — Always Side-by-Side Thumbnail + Timeline on Phone & Tablet, Straddling on Desktop */}
-          <div className="space-y-9 sm:space-y-14 max-w-lg mx-auto lg:mx-0 w-full">
+        {/* RIGHT COLUMN (Cols 7-12): Soft Alabaster Program Timeline (4 Authentic Hindi Programs with Separate Images) */}
+        <div className="relative lg:col-span-6 bg-[#F4F4F4] flex flex-col justify-center py-12 sm:py-18 lg:pt-36 lg:pb-20 px-4 sm:px-10 lg:pl-28 lg:pr-14">
+          <div className="space-y-8 sm:space-y-11 max-w-lg mx-auto lg:mx-0 w-full">
             {PROGRAM_BLOCKS.map((block, blockIdx) => (
               <motion.div
-                key={block.title}
+                key={block.dateHindi}
                 initial={{ opacity: 0, y: 28 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
+                viewport={{ once: true, amount: 0.25 }}
                 transition={{
                   duration: 0.85,
-                  delay: blockIdx * 0.14,
+                  delay: blockIdx * 0.12,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-                className="relative flex flex-row lg:block items-center gap-3.5 sm:gap-5"
+                className="relative flex flex-row lg:block items-start sm:items-center gap-3.5 sm:gap-5"
               >
-                {/* Square Thumbnail with Crisp White Inner Frame Border */}
-                {/* Side-by-side on Phone & Tablet (`w-24 h-24 sm:w-32 sm:h-32`), straddling center seam on Desktop (`lg:absolute lg:-left-[184px]`) */}
+                {/* Separate Ceremony Thumbnail with Crisp White Inner Frame Border */}
                 <motion.button
                   type="button"
                   onClick={() =>
                     onSelectPortrait?.({
                       ...POLAROID_MEMORIES[block.memoryIndex],
-                      title: `${block.title} — आशीष & तन्नू`,
+                      title: `${block.dateHindi} (${block.dayHindi}) — आशीष & तन्नू`,
+                      handwrittenCaption: block.englishTitle,
+                      story: block.noteHindi
+                        ? `${block.mainProgramHindi} ${block.noteHindi}`
+                        : block.mainProgramHindi,
                       imageSrc: portraits[block.portraitKey],
                     })
                   }
-                  aria-label={`View ${block.title} portrait`}
+                  aria-label={`View ${block.englishTitle} portrait`}
                   initial={{ opacity: 0, scale: 0.84 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true, amount: 0.35 }}
@@ -434,36 +437,57 @@ export const TheProgramsSection: React.FC<TheProgramsSectionProps> = ({
                     type: 'spring',
                     stiffness: 120,
                     damping: 18,
-                    delay: blockIdx * 0.14 + 0.08,
+                    delay: blockIdx * 0.12 + 0.08,
                   }}
                   whileHover={{ scale: 1.06 }}
                   whileTap={{ scale: 0.97 }}
-                  className="relative lg:absolute lg:-left-[184px] lg:top-1/2 lg:-translate-y-1/2 w-24 h-24 xs:w-28 xs:h-28 sm:w-36 sm:h-36 shrink-0 bg-[#DDD4CA] shadow-[0_10px_28px_rgba(0,0,0,0.14)] overflow-hidden cursor-pointer group z-20"
+                  className="relative lg:absolute lg:-left-[176px] lg:top-1/2 lg:-translate-y-1/2 w-24 h-24 xs:w-28 xs:h-28 sm:w-32 sm:h-32 shrink-0 bg-[#DDD4CA] shadow-[0_10px_28px_rgba(0,0,0,0.14)] overflow-hidden cursor-pointer group z-20 mt-1 lg:mt-0"
                 >
                   <img
                     src={portraits[block.portraitKey]}
-                    alt={block.title}
+                    alt={block.englishTitle}
                     className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-110"
                   />
                   {/* Thin White Inset Square Frame */}
                   <div className="absolute inset-1.5 sm:inset-2 border border-white/90 pointer-events-none" />
                 </motion.button>
 
-                {/* Program Title & 3 Horizontal Line Rows */}
+                {/* Program Date Heading & Hindi Details */}
                 <div className="w-full min-w-0 text-left">
-                  <div className="flex flex-wrap items-baseline justify-between gap-1.5 mb-2.5 sm:mb-3.5">
-                    <h3 className="font-pinyon text-2xl xs:text-3xl sm:text-4xl text-[#1E3148] leading-none tracking-normal">
-                      {block.title}
-                    </h3>
-                    <span
-                      className="text-[10px] sm:text-xs text-[#5C6B7A] font-medium"
+                  <div className="flex flex-wrap items-baseline justify-between gap-1.5 mb-1.5">
+                    <h3
+                      className="text-lg xs:text-xl sm:text-2xl text-[#1E3148] font-bold leading-snug"
                       style={{ fontFamily: 'var(--font-hindi)' }}
                     >
-                      {block.subtitleHindi}
+                      &bull; {block.dateHindi} ({block.dayHindi})
+                    </h3>
+                    <span className="font-pinyon text-xl sm:text-2xl text-[#4A5D70] leading-none">
+                      {block.englishTitle}
                     </span>
                   </div>
 
-                  <div className="space-y-2 sm:space-y-2.5">
+                  {/* Primary Hindi Program Line (`~ ...`) */}
+                  <p
+                    className="text-sm xs:text-base sm:text-[17px] text-[#263B54] font-semibold leading-relaxed mb-2"
+                    style={{ fontFamily: 'var(--font-hindi)' }}
+                  >
+                    {block.mainProgramHindi}
+                  </p>
+
+                  {/* Special Baraat Departure Note for 09 December 2026 */}
+                  {block.noteHindi && (
+                    <div className="mb-2.5 px-3 py-2 rounded bg-[#EAE5DC]/90 border-l-2 border-[#1E3148] text-[#2A3E54]">
+                      <p
+                        className="text-xs sm:text-sm leading-relaxed font-medium"
+                        style={{ fontFamily: 'var(--font-hindi)' }}
+                      >
+                        {block.noteHindi}
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Animated Horizontal Timeline Lines */}
+                  <div className="space-y-1.5">
                     {block.items.map((item, itemIdx) => (
                       <motion.div
                         key={item.label}
@@ -472,28 +496,33 @@ export const TheProgramsSection: React.FC<TheProgramsSectionProps> = ({
                         viewport={{ once: true, amount: 0.4 }}
                         transition={{
                           duration: 0.6,
-                          delay: blockIdx * 0.14 + itemIdx * 0.1 + 0.14,
+                          delay: blockIdx * 0.12 + itemIdx * 0.1 + 0.14,
                           ease: [0.16, 1, 0.3, 1],
                         }}
-                        className="grid grid-cols-[92px_1fr_62px] xs:grid-cols-[105px_1fr_70px] sm:grid-cols-[125px_1fr_90px] items-center gap-2 sm:gap-3 group/row"
+                        className="grid grid-cols-[118px_1fr_76px] xs:grid-cols-[135px_1fr_85px] sm:grid-cols-[155px_1fr_105px] items-center gap-2 sm:gap-3 group/row"
                       >
-                        <span className="font-serif text-xs sm:text-[15px] text-[#3A4D63] group-hover/row:text-[#182635] transition-colors font-medium truncate">
+                        <span
+                          className="text-xs sm:text-sm text-[#3A4D63] group-hover/row:text-[#182635] transition-colors font-medium truncate"
+                          style={{ fontFamily: 'var(--font-hindi)' }}
+                        >
                           {item.label}
                         </span>
-                        {/* Animated Horizontal Timeline Line Drawing from Left to Right */}
                         <motion.div
                           initial={{ scaleX: 0 }}
                           whileInView={{ scaleX: 1 }}
                           viewport={{ once: true, amount: 0.4 }}
                           transition={{
                             duration: 0.85,
-                            delay: blockIdx * 0.14 + itemIdx * 0.12 + 0.2,
+                            delay: blockIdx * 0.12 + itemIdx * 0.12 + 0.2,
                             ease: [0.22, 1, 0.36, 1],
                           }}
                           style={{ transformOrigin: 'left center' }}
                           className="h-px w-full bg-[#8E9AA6]/70 group-hover/row:bg-[#1E3148] transition-colors"
                         />
-                        <span className="font-sans text-[10px] sm:text-[13px] text-[#4A5D70] group-hover/row:text-[#182635] transition-colors font-medium text-right tabular-nums whitespace-nowrap">
+                        <span
+                          className="text-[11px] sm:text-xs text-[#4A5D70] group-hover/row:text-[#182635] transition-colors font-medium text-right whitespace-nowrap"
+                          style={{ fontFamily: 'var(--font-hindi)' }}
+                        >
                           {item.time}
                         </span>
                       </motion.div>
