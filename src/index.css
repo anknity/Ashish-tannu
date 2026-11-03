@@ -1,0 +1,195 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+  --font-hindi: "Noto Serif Devanagari", "Tiro Devanagari Hindi", Georgia, serif;
+  --font-alex: "Alex Brush", cursive;
+  --font-pinyon: "Pinyon Script", cursive;
+  --font-sans: "Montserrat", sans-serif;
+
+  --color-prussian-950: #132030;
+  --color-prussian-900: #1B2D42;
+  --color-prussian-800: #243A51;
+  --color-prussian-700: #2D4661;
+  --color-prussian-600: #3C5A78;
+
+  --color-powder-100: #E6EEF6;
+  --color-powder-200: #C5D5E6;
+  --color-powder-300: #9BB0C5;
+  --color-powder-400: #7E96B0;
+  --color-powder-500: #69829E;
+
+  --color-ivory-50: #FAF8F5;
+  --color-ivory-100: #F4F0EA;
+  --color-ivory-200: #EAE4DC;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: #1B2D42;
+  color: #F4F0EA;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  overflow-x: hidden;
+}
+
+/* 1. DEEP TEXTURED PRUSSIAN / MOONSTONE ROYAL DAMASK & FELT BACKGROUND */
+.prussian-felt-bg {
+  background-color: #1F3449;
+  background-image:
+    radial-gradient(ellipse at 50% 12%, rgba(88, 124, 160, 0.42) 0%, transparent 62%),
+    radial-gradient(ellipse at 12% 45%, rgba(16, 28, 42, 0.72) 0%, transparent 58%),
+    radial-gradient(ellipse at 88% 45%, rgba(16, 28, 42, 0.72) 0%, transparent 58%),
+    radial-gradient(ellipse at 50% 88%, rgba(68, 102, 138, 0.38) 0%, transparent 65%),
+    /* Subtle Repeating Silver-Leaf Damask Lattice Pattern */
+    url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23C5D5E6' stroke-width='0.6' stroke-opacity='0.14'%3E%3Cpath d='M60 8 C72 28 92 48 112 60 C92 72 72 92 60 112 C48 92 28 72 8 60 C28 48 48 28 60 8 Z'/%3E%3Cpath d='M60 22 C68 36 84 52 98 60 C84 68 68 84 60 98 C52 84 36 68 22 60 C36 52 52 36 60 22 Z' stroke-dasharray='2 3'/%3E%3Ccircle cx='60' cy='60' r='5'/%3E%3Ccircle cx='60' cy='60' r='1.5' fill='%23C5D5E6' fill-opacity='0.18'/%3E%3Cpath d='M60 0 V12 M60 108 V120 M0 60 H12 M108 60 H120'/%3E%3Ccircle cx='0' cy='0' r='10'/%3E%3Ccircle cx='120' cy='0' r='10'/%3E%3Ccircle cx='0' cy='120' r='10'/%3E%3Ccircle cx='120' cy='120' r='10'/%3E%3C/g%3E%3C/svg%3E"),
+    /* Fine Handmade Cotton Paper Grain */
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.78  0 0 0 0 0.85  0 0 0 0 0.92  0 0 0 0.08 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* 2. ALABASTER / FINE WHITE FLORAL PARCHMENT TEXTURE */
+.alabaster-parchment-bg {
+  background-color: #ECEEF0;
+  background-image:
+    radial-gradient(circle at 50% 35%, rgba(255, 255, 255, 0.88) 0%, rgba(232, 235, 239, 0.96) 100%),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.85  0 0 0 0 0.86  0 0 0 0 0.88  0 0 0 0.22 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E");
+  color: #1F3147;
+}
+
+/* 3. REALISTIC POWDER-BLUE ENVELOPE TEXTURE */
+.powder-envelope-surface {
+  background: linear-gradient(155deg, #AABECF 0%, #8CA3B8 48%, #7790A7 100%);
+  box-shadow:
+    0 26px 60px rgba(8, 16, 26, 0.65),
+    0 4px 16px rgba(8, 16, 26, 0.4),
+    inset 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+/* 4. REALISTIC BRUSHED SILVER METALLIC CD DISC */
+.cd-disc-surface {
+  background:
+    conic-gradient(
+      from 35deg,
+      #B8C0C8 0deg,
+      #F5F7FA 32deg,
+      #9DA7B2 68deg,
+      #D8DFE6 110deg,
+      #EEF2F6 145deg,
+      #8E98A4 185deg,
+      #B8C0C8 215deg,
+      #F6F8FA 250deg,
+      #9AA4B0 295deg,
+      #E1E6EC 330deg,
+      #B8C0C8 360deg
+    );
+  box-shadow:
+    0 14px 32px rgba(12, 22, 34, 0.55),
+    inset 0 0 0 1.5px rgba(255, 255, 255, 0.7),
+    inset 0 0 18px rgba(120, 135, 150, 0.35);
+}
+
+@keyframes spinDisc {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.cd-spinning {
+  animation: spinDisc 9s linear infinite;
+}
+
+/* 5. CREAM VINTAGE COTTON CARD PAPER */
+.cream-card-paper {
+  background: linear-gradient(165deg, #FAF7F0 0%, #F0EAE0 60%, #E7DFD3 100%);
+  color: #1F2D3D;
+  box-shadow: 0 18px 40px rgba(10, 20, 32, 0.52);
+}
+
+/* 6. SCALLOP / DOUBLE-BORDER STATIONERY FRAME */
+.scallop-card {
+  position: relative;
+  border: 2px solid #AEB9C4;
+  border-radius: 6px;
+}
+.scallop-card::before {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border: 1.2px solid #8A99A8;
+  pointer-events: none;
+}
+
+/* 7. ARCHED DATE CARD ("TOGETHER ON 22 MAY 2027") */
+.arched-date-card {
+  border-radius: 130px 130px 12px 12px;
+  border: 2.5px solid #AEB9C4;
+  position: relative;
+}
+.arched-date-card::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border-radius: 124px 124px 8px 8px;
+  border: 1.2px solid #7C8FA3;
+  pointer-events: none;
+}
+
+/* 8. POLAROID FRAME */
+.polaroid-frame {
+  background: #F7F4EE;
+  padding: 8px 8px 24px 8px;
+  box-shadow: 0 16px 35px rgba(10, 18, 28, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+/* 9. HANGING BLUE LEATHER / STITCHED LUGGAGE TAG ("THE DETAILS") */
+.blue-luggage-tag {
+  background: linear-gradient(160deg, #6E8BA7 0%, #4E6B87 100%);
+  border-radius: 28px;
+  box-shadow: 0 16px 32px rgba(10, 18, 28, 0.55);
+  position: relative;
+}
+.blue-luggage-tag::after {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border-radius: 23px;
+  border: 1px dashed rgba(225, 235, 245, 0.6);
+  pointer-events: none;
+}
+
+/* 10. SUBTLE STAR TWINKLE */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.25; transform: scale(0.9); }
+  50% { opacity: 0.95; transform: scale(1.15); }
+}
+.star-twinkle {
+  animation: twinkle 4s ease-in-out infinite;
+}
+
+/* 11. ENVELOPE CABOCHON PEARL BROOCH SEAL */
+.pearl-cabochon-seal {
+  background: radial-gradient(circle at 35% 30%, #FFFFFF 0%, #E5ECF2 40%, #BAC6D2 78%, #8895A2 100%);
+  box-shadow:
+    0 8px 20px rgba(15, 25, 36, 0.5),
+    inset 0 2px 4px rgba(255, 255, 255, 0.95),
+    0 0 0 4px #B8B5B0,
+    0 0 0 6px #787A7E;
+}
+
+/* 12. SILVER WAX SEAL ON MINI RSVP ENVELOPE */
+.silver-wax-seal {
+  background: radial-gradient(circle at 35% 30%, #DCE2E8 0%, #9FA9B4 50%, #6D7782 90%);
+  box-shadow:
+    0 5px 12px rgba(15, 25, 36, 0.45),
+    inset 0 1px 3px rgba(255, 255, 255, 0.7);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cd-spinning,
+  .star-twinkle {
+    animation: none !important;
+  }
+}
